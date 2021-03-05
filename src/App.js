@@ -1,24 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
+import accounts from './data/accounts.json'
+import SelectComp from './components/Select';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SelectComp accounts={accounts} style={{width:"450px",marginLeft:"30%",marginTop:"20%"}} />
   );
 }
 

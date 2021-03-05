@@ -1,0 +1,20 @@
+[
+    {
+        "sortCode": "23-53-12",
+        "accountNumber": "5626888863720",
+        "accountType": "Savings Account",
+        "accountName": "Ashwini Kumar"
+    },
+    {
+        "sortCode": "64-27-15",
+        "accountNumber": "8725200005252",
+        "accountType": "Current Account",
+        "accountName": "Binay K. Sahoo"
+    },
+    {
+        "sortCode": "45-98-36",
+        "accountNumber": "3532620003635",
+        "accountType": "Savings Account",
+        "accountName": "Binay K. Sahoo"
+    }
+]
