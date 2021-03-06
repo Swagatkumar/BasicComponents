@@ -3,19 +3,14 @@ import Select from 'react-select'
 import { Flex, Image } from 'rebass'
 import tick from './green-tick.png'
 
-function SelectComp({accounts,style,customStyle}) {
+function SelectComp({accounts,style,customStyle,placeholder}) {
 
-    const [selectedOption, setSelectedOption] = useState()
     const [options, setOptions] = useState(accounts.map(account=>({
         value: account,
         label: `${account.sortCode} ${account.accountNumber} ${account.accountType} ${account.accountName}`
     })))
 
     const changeHandler = (e) => {
-        setSelectedOption({
-            label: <SelectedOption account={e.value} />,
-            value: e.value
-        })
         setOptions(options.map(option=>{
             const label = `${option.value.sortCode} ${option.value.accountNumber} ${option.value.accountType} ${option.value.accountName}`
             return {value: option.value,
@@ -27,7 +22,11 @@ function SelectComp({accounts,style,customStyle}) {
 
     return (
         <div style={style}>
-            <Select styles={customStyle} options={options} onChange={e=>{changeHandler(e)}} value={selectedOption} />
+            <Select styles={customStyle} options={options} placeholder={placeholder}
+            components={{
+                SingleValue:({data})=><SelectedValue data={data} style={customStyle.singleValue()} />
+            }}
+            onChange={e=>{changeHandler(e)}} />
         </div>
     )
 }
@@ -37,7 +36,7 @@ SelectComp.defaultProps = {
         option: (styles, { isFocused, isSelected }) => {
             return {
               ...styles,
-              backgroundColor: isSelected ? '#FFFF66' : isFocused ? '#FFFFCC':null,
+              backgroundColor: isSelected?'#99ccff':isFocused ? '#cce6ff':null,
               color: isSelected && 'black',
               ':active': {
                 ...styles[':active'],
@@ -45,27 +44,23 @@ SelectComp.defaultProps = {
               },
             }
         },
-        valueContainer: base => ({
-            ...base,
-            height: 70,
-            minHeight: 70,
-        }),
         singleValue: base => ({
             ...base,
-            fontWeight: 500
+            padding: '10px'
         })
     },
     style: {
         width: "550px"
-    }
+    },
 }
 
-function SelectedOption({account}){
+function SelectedValue({data,style}){
+    const {sortCode,accountName,accountType,accountNumber} = data.value
     return (
-        <>
-            <div>{account.sortCode} &nbsp;&nbsp;&nbsp;&nbsp;{account.accountNumber}</div>
-            <div>{account.accountType} - {account.accountName}</div>
-        </>
+        <div style={style}>
+            {sortCode}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{accountNumber}<br/>
+            {`${accountType} - ${accountName}`}
+        </div>
     )
 }
 
