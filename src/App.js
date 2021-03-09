@@ -22,7 +22,7 @@ const selectStyle = {
 }
 
 const style = {
-  width:"450px",
+  width:"550px",
   marginLeft:"30%",
   marginTop:"20%",
 }

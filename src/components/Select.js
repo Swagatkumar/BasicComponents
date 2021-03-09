@@ -1,28 +1,42 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
-import { Flex, Image } from 'rebass'
+import { Flex, Image, Text } from 'rebass'
+import styled from 'styled-components'
 import tick from './green-tick.png'
 
+const MarginedSpan = styled.span`
+margin-left: 30px
+`
+    
 function SelectComp({accounts,style,customStyle,placeholder}) {
-
-    const [options, setOptions] = useState(accounts.map(account=>({
-        value: account,
-        label: `${account.sortCode} ${account.accountNumber} ${account.accountType} ${account.accountName}`
-    })))
+    const [options, setOptions] = useState(accounts.map((account,i)=>{
+        const { sortCode, accountNumber, accountType, accountName } = account
+        const label = `${sortCode} ${accountNumber} ${accountType} ${accountName}`
+        return {
+            value: account,
+            label: i===0?<Flex justifyContent='space-between' alignItems='center'>{label}<Image src={tick} sx={{
+                height: "20px"
+            }} /></Flex>:label
+        }
+    }))
 
     const changeHandler = (e) => {
         setOptions(options.map(option=>{
-            const label = `${option.value.sortCode} ${option.value.accountNumber} ${option.value.accountType} ${option.value.accountName}`
-            return {value: option.value,
-            label: option.label===e.label?<Flex justifyContent='space-between' alignItems='center'>{label}<Image src={tick} sx={{
-                height: "20px"
-            }} /></Flex>:label}
+            if(option.value!==undefined){
+                const { sortCode, accountNumber, accountType, accountName } = option.value
+                const label = `${sortCode} ${accountNumber} ${accountType} ${accountName}`
+                return {value: option.value,
+                label: option.label===e.label?<Flex justifyContent='space-between' alignItems='center'>{label}<Image src={tick} sx={{
+                    height: "20px"
+                }} /></Flex>:label}
+            }
+            return option
         }))
     }
 
     return (
         <div style={style}>
-            <Select styles={customStyle} options={options} placeholder={placeholder}
+            <Select styles={customStyle} options={options} placeholder={placeholder} defaultValue={options.length>=1&&options[0]}
             components={{
                 SingleValue:({data})=><SelectedValue data={data} style={customStyle.singleValue()} />
             }}
@@ -58,8 +72,8 @@ function SelectedValue({data,style}){
     const {sortCode,accountName,accountType,accountNumber} = data.value
     return (
         <div style={style}>
-            {sortCode}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{accountNumber}<br/>
-            {`${accountType} - ${accountName}`}
+            <Text>{sortCode}<MarginedSpan>{accountNumber}</MarginedSpan></Text>
+            <Text>{accountType} - {accountName}</Text>
         </div>
     )
 }
