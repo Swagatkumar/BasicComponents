@@ -1,6 +1,6 @@
 import './App.css';
 import accounts from './data/accounts.json'
-import SelectComp from './components/Select';
+import Select from './components/Select/'
 
 const selectStyle = {
   option: (styles, { isFocused, isSelected }) => {
@@ -28,7 +28,7 @@ const style = {
 }
 function App() {
   return (
-    <SelectComp accounts={accounts} style={style} placeholder="Choose an account..." />
+    <Select accounts={accounts} style={style} customStyle={selectStyle} placeholder="Choose an account..." />
   );
 }
 

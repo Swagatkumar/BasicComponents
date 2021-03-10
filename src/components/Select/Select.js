@@ -9,7 +9,9 @@ margin-left: 30px
 `
     
 function SelectComp({accounts,style,customStyle,placeholder}) {
-    const [options, setOptions] = useState(accounts.map((account,i)=>{
+
+    //fetching options
+    const optionList = accounts!==undefined?accounts.map((account,i)=>{
         const { sortCode, accountNumber, accountType, accountName } = account
         const label = `${sortCode} ${accountNumber} ${accountType} ${accountName}`
         return {
@@ -18,9 +20,15 @@ function SelectComp({accounts,style,customStyle,placeholder}) {
                 height: "20px"
             }} /></Flex>:label
         }
-    }))
+    }):[]
 
+    //creating options state
+    const [options, setOptions] = useState(optionList)
+
+    // handling onChange event of the react-select
     const changeHandler = (e) => {
+
+        //setting the options state (selected option will have a tick)
         setOptions(options.map(option=>{
             if(option.value!==undefined){
                 const { sortCode, accountNumber, accountType, accountName } = option.value
